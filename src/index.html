@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Barra de Pactolo</title>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="jquery-3.3.1.min.js"></script>
+  <style>
+    /* Make the chart container fill the page using CSS. */
+    #chart {
+      position: fixed;
+      left: 0px;
+      right: 0px;
+      top: 0px;
+      bottom: 0px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="chart">
+  <svg id= "tela" width="100%" height="100%" >
+    <rect id= "barra" width="4%" height="100%" fill="green"/>
+    <svg id = "componentes" width="100%" height="100%">
+      <circle id= "circ" cx="500" cy="500" r="40" fill="red"/>
+      <circle id= "circ" cx="800" cy="500" r="40" fill="red" />
+      <circle id= "circ" cx="1100" cy="500" r="40" fill="red" />
+      <!--<foreignObject x="4%" width="100%" height="100%">-->
+        <!--<iframe xmlns="http://www.w3.org/1999/xhtml"-->
+                <!--x="4%" width="96%" height="100%"-->
+                <!--src="https://www.youtube.com/embed/3OE2nO7Cjmw"-->
+                <!--frameborder="0"></iframe>-->
+      <!--</foreignObject>-->
+    </svg>
+  </svg>
+</div>
+
+
+<script type = "text/javascript">
+
+  var chartDiv = document.getElementById("chart");
+  var svg = d3.select(chartDiv).append("svg");
+  var click_flag = true;
+  var timestamp;
+  var coordinates;
+
+  d3.select("#chart")
+    .on("click",getData)
+  // To enable and disable the Click when the mouse gets over the bar
+  d3.select("#barra")
+    .on("mouseover",clickOnOff)
+  // To change the color of the element
+  d3.selectAll("#circ")
+    .on("click",changeColorClick)
+
+
+
+  // Draw for the first time to initialize.
+  redraw();
+
+  // Redraw based on the new size whenever the browser window is resized.
+  window.addEventListener("resize", redraw);
+
+  function redraw()
+  {
+    // Extract the width and height that was computed by CSS.
+    var width = chartDiv.clientWidth;
+    var height = chartDiv.clientHeight;
+
+    // Use the extracted size to set the size of an SVG element.
+    svg.selectAll()
+      .attr("width", width)
+      .attr("height", height);
+  }
+
+  function getData()
+  {
+    //Get Timestamp
+    timestamp = new Date().getTime();
+    //Get X and Y Coordinates
+    coordinates = d3.mouse(this);
+    // Create JSON
+    if (click_flag == true)
+    {
+      var data = {
+        "Flag_click": click_flag,
+        "timestamp": timestamp,
+        "Coordenada X": coordinates[0],
+        "Coordenada Y": coordinates[1]
+      };
+    }
+    console.log(data)
+  }
+
+  function changeColorClick(d,i)
+  {
+    d3.select(this)
+      .style("fill", "blue");
+  }
+
+  function clickOnOff(d,i)
+  {
+    // Para desabilitar o Clique
+    if (click_flag == true)
+    {
+
+      click_flag = false
+      d3.select(this)
+        .style("fill","red")
+      document.getElementById("componentes").style.pointerEvents = 'none';
+
+    }
+    // Para habilitar o Clique
+    else
+      {
+        click_flag = true
+        d3.select(this)
+          .style("fill","green")
+        document.getElementById("componentes").style.pointerEvents = 'auto';
+      }
+  }
+
+</script>
+</body>
+</html>
+

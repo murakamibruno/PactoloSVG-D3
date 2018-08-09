@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Barra de Pactolo</title>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <style>
+    /* Make the chart container fill the page using CSS. */
+    #chart {
+      position: fixed;
+      left: 0px;
+      right: 0px;
+      top: 0px;
+      bottom: 0px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="chart">
+  <svg class = "barra" width="100%" height="100%" >
+    <rect id= "rect1" width="4%" height="100%" fill="blue"/>
+  </svg>
+</div>
+
+<script type = "text/javascript">
+
+  var chartDiv = document.getElementById("chart");
+  var svg = d3.select(chartDiv).append("svg");
+
+  function redraw()
+  {
+
+    // Extract the width and height that was computed by CSS.
+    var width = chartDiv.clientWidth;
+    var height = chartDiv.clientHeight;
+
+    // Use the extracted size to set the size of an SVG element.
+    svg
+      .attr("width", width)
+      .attr("height", height);
+
+    // Draw an X to show that the size is correct.
+
+
+  }
+
+  // Draw for the first time to initialize.
+  redraw();
+
+  // Redraw based on the new size whenever the browser window is resized.
+  window.addEventListener("resize", redraw);
+
+  var barra = d3.select(".barra");
+
+</script>
+
+</body>
+</html>
