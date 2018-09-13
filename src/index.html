@@ -8,31 +8,48 @@
   <script src="require.js"></script>
   <style>
     /* Make the chart container fill the page using CSS. */
-    #chart {
+    #chart  {
       position: fixed;
       left: 0px;
       right: 0px;
       top: 0px;
       bottom: 0px;
     }
+
+    #overlay {
+      background-color: rgba(0, 0, 0, 0);
+      bottom: 0;
+      left: 4%;
+      position: fixed;
+      right: 0;
+      top: 0;
+      display: none;
+      width: 96%;
+      height: 100%;
+    }
+
   </style>
 </head>
-<body>
 
+<body>
 <div id="chart">
   <svg id= "tela" width="100%" height="100%" >
     <rect id= "barra" width="4%" height="100%" fill="green"/>
     <svg id = "componentes" width="100%" height="100%">
-      <!--<circle id= "circ" cx="500" cy="500" r="40" fill="red"/>-->
-      <!--<circle id= "circ" cx="800" cy="500" r="40" fill="red" />-->
-      <!--<circle id= "circ" cx="1100" cy="500" r="40" fill="red" />-->
-      <foreignObject x="4%" width="100%" height="100%">
-        <iframe xmlns="http://www.w3.org/1999/xhtml"
-                x="4%" width="96%" height="100%"
-                src="https://www.youtube.com/embed/3OE2nO7Cjmw"
-                frameborder="0"></iframe>
-      </foreignObject>
-    </svg>
+
+      <circle id= "circ" cx="500" cy="500" r="40" fill="red"/>
+      <circle id= "circ" cx="800" cy="500" r="40" fill="red" />
+      <circle id= "circ" cx="1100" cy="500" r="40" fill="red" />
+      <!--<foreignObject x="4%" width="100%" height="100%">-->
+        <!--<iframe xmlns="http://www.w3.org/1999/xhtml"-->
+                <!--x="4%" width="96%" height="100%"-->
+                <!--src="https://www.youtube.com/embed/3OE2nO7Cjmw"-->
+                <!--frameborder="0">-->
+        <!--</iframe>-->
+      <!--</foreignObject>-->
+      <div id="overlay">
+      </div>
+  </svg>
   </svg>
 </div>
 
@@ -44,6 +61,8 @@
   var click_flag = true;
   var timestamp;
   var coordinates;
+
+  //d3.select("body").remove()
 
   d3.select("#chart")
     .on("click",getData)
@@ -101,6 +120,7 @@
   {
     d3.select(this)
       .style("fill", "blue");
+    console.log("TROCOU DE COR");
   }
 
   function clickOnOff(d,i)
@@ -112,8 +132,8 @@
       click_flag = false
       d3.select(this)
         .style("fill","red")
-      document.getElementById("componentes").style.pointerEvents = 'none';
-
+      //document.getElementById("componentes").style.pointerEvents = 'none';
+      document.getElementById("overlay").style.display = 'initial';
     }
     // Disable Click
     else
@@ -121,8 +141,10 @@
         click_flag = true
         d3.select(this)
           .style("fill","green")
-        document.getElementById("componentes").style.pointerEvents = 'auto';
+        //document.getElementById("componentes").style.pointerEvents = 'auto';
+        document.getElementById("overlay").style.display = 'none';
       }
+
   }
 
 </script>
